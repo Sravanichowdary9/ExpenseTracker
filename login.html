@@ -14,7 +14,7 @@
 <body>
     <div class="container">
         <h2>Login</h2>
-        <form action="/submit-your-login-form" method="POST">
+        <form action="/submit-login" method="POST">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
@@ -24,12 +24,12 @@
                 <div class="input-group">
                     <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
                     <div class="input-group-append">
-                        <span class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
+                        <span class="input-group-text" onclick="togglePassword('pwd', 'toggleIcon')" style="cursor: pointer;">
                             <i id="toggleIcon" class="bi bi-eye-slash"></i>
                         </span>
                     </div>
                 </div>
-            </div>
+            </div>            
             <button type="submit" class="btn btn-primary">Login</button>
             <div class="form-group form-check">
                 <label class="form-check-label">
