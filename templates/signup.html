@@ -1,0 +1,115 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('.static', filename='signin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <form class="form-signin" method="POST" action="/signup">
+    <h2 class="form-signin-heading">Sign Up</h2>
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.username) }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.password) }}
+    <div class="form-row">
+      <div class="form-group col-md-6">
+          <label for="mobile">Mobile<span class="required">*</span></label>
+          <input type="tel" pattern="[0-9]*" inputmode="numeric" class="form-control" id="mobile" name="mobile" required>
+      </div>
+      <div class="form-group col-md-6">
+          <label for="country">Region</label>
+          <select id="country" class="form-control" name="country" required>
+              <option selected>Choose...</option>
+              {% for region in regions %}
+                  <option value="{{ region.value }}">{{ region.label }}</option>
+              {% endfor %}
+              <option value="ACT">Australian Capital Territory</option>
+        <option value="NSW">New South Wales</option>
+        <option value="NT">Northern Territory</option>
+        <option value="QLD">Queensland</option>
+        <option value="SA">South Australia</option>
+        <option value="TAS">Tasmania</option>
+        <option value="VIC">Victoria</option>
+        <option value="WA">Western Australia</option>
+          </select>
+      </div>
+  </div>
+  
+  <!--<div class="form-row">
+      <div class="form-group col-md-6">
+          <label for="password">Password<span class="required">*</span></label>
+          <div class="input-group">
+              <input type="password" class="form-control" id="password" name="password" required>
+              <div class="input-group-append">
+                  <span class="input-group-text" onclick="togglePassword('password', 'toggleIcon1')" style="cursor: pointer;">
+                      <i id="toggleIcon1" class="bi bi-eye-slash"></i>
+                  </span>
+              </div>
+          </div>
+      </div>-->
+      <div class="form-group col-md-6">
+        <label for="password">Password<span class="required">*</span></label>
+        <div class="input-group">
+            {{ wtf.form_field(form.password, class="form-control", id="password", required="required", oninput="checkPasswordsMatch();") }}
+            <div class="input-group-append">
+                <span class="input-group-text" onclick="togglePassword('password', 'toggleIcon1')" style="cursor: pointer;">
+                    <i id="toggleIcon1" class="bi bi-eye-slash"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group col-md-6">
+        <label for="confirmPassword">Confirm Password<span class="required">*</span></label>
+        <div class="input-group">
+            {{ wtf.form_field(form.confirmPassword, class="form-control", id="confirmPassword", required="required", oninput="checkPasswordsMatch();") }}
+            <div class="input-group-append">
+                <span class="input-group-text" onclick="togglePassword('confirmPassword', 'toggleIcon2')" style="cursor: pointer;">
+                    <i id="toggleIcon2" class="bi bi-eye-slash"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+          <div id="passwordMatchMessage" class="text-danger mt-2"></div>
+      </div>
+  </div>
+  
+  <label>Gender<span class="required">*</span></label>
+<div class="row">
+    <div class="col-4 form-check thirds">
+        {{ wtf.form_radio(form.gender, id="male", value="male", class_="form-check-input", required=True) }}
+        <label class="form-check-label" for="male">Male</label>
+    </div>
+    <div class="col-4 form-check thirds">
+        {{ wtf.form_radio(form.gender, id="female", value="female", class_="form-check-input", required=True) }}
+        <label class="form-check-label" for="female">Female</label>
+    </div>
+    <div class="col-4 form-check thirds">
+        {{ wtf.form_radio(form.gender, id="transgender", value="transgender", class_="form-check-input", required=True) }}
+        <label class="form-check-label" for="transgender">Transgender</label>
+    </div>
+    <div class="col-4 form-check halves">
+        {{ wtf.form_radio(form.gender, id="nonbinary", value="nonbinary", class_="form-check-input", required=True) }}
+        <label class="form-check-label" for="nonbinary">Non-Binary</label>
+    </div>
+    <div class="col-4 form-check halves">
+        {{ wtf.form_radio(form.gender, id="other", value="other", class_="form-check-input", required=True) }}
+        <label class="form-check-label" for="other">Prefer not to say</label>
+    </div>
+</div>
+
+  
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}
