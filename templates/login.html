@@ -10,32 +10,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <script>
-        $(document).ready(function(){
-            $("form").submit(function(event){
-                event.preventDefault();
-                var formData = {
-                    'username': $('input[name=username]').val(),
-                    'password': $('input[name=password]').val()
-                };
-        
-                $.ajax({
-                    type: "POST",
-                    url: "/perform_login",
-                    data: formData,
-                    success: function(data) {
-                        alert(data);
-                    },
-                    error: function() {
-                        alert("Login Failed.");
-                    }
-                });
-            });
-        });
-        </script>
+    <script src="{{ url_for('static', filename='js/loginform.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/loginform.js') }}"></script>
+   
         
 </head>
+
+
 <body>
     <div class="login-container">
         <h3>Login</h3>

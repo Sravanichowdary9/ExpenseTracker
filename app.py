@@ -9,14 +9,55 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+    
+
+
+def setup_database(app):
+    with app.app_context():
+        db.create_all()
+
+setup_database(app)
+
+
+    
 @app.route('/')
 def login():
     return render_template('login.html')
 
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/submit-signup', methods=['POST'])
+def submit_signup():
+    username = request.form.get('firstName')
+    password = request.form.get('password')
+    email = request.form.get('email')
+    if not all([username, password, email]):
+        return "Missing fields", 400
+
+    hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+    
+    new_user = User(username=username, password=hashed_password, email=email)
+    db.session.add(new_user)
+    db.session.commit()
+    
+    return "Signup successful! Welcome, {}".format(username)
+
 @app.route('/perform_login', methods=['POST'])
 def perform_login():
-    username = request.form['username']
-    password = request.form['password']
+    username = request.form.get('firstName')
+    password = request.form.get('password')
+    if not username or not password:
+        return "Missing username or password", 400
     
     user = User.query.filter_by(username=username).first()
     
@@ -26,9 +67,6 @@ def perform_login():
         return "Invalid credentials", 401
 
 
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
 
 @app.route('/forgot_password')
 def forgot_password():
@@ -36,33 +74,11 @@ def forgot_password():
 
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-
-    def __repr__(self):
-        return f'<User {self.username}>'
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 
-@app.route('/submit-signup', methods=['POST'])
-def submit_signup():
-    username = request.form['username']
-    password = request.form['password']
-    email = request.form['email']
-    
-    hashed_password = generate_password_hash(password, method='sha256')
-    
-    new_user = User(username=username, password=hashed_password, email=email)
-    db.session.add(new_user)
-    db.session.commit()
-    
-    return "Signup successful! Welcome, {}".format(username)
+
+
+
 
 
 @app.errorhandler(Exception)
