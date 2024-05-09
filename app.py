@@ -1,14 +1,16 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms import StringField, PasswordField, BooleanField, SelectField, TelField, DateField
+from wtforms.validators import InputRequired, Email, Length, Optional
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import email_validator
+
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'NOBODY-CAN-GUESS-THIS'
+app.config['SECRET_KEY'] = 'ExpenseTracker'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
 Bootstrap(app)
 db = SQLAlchemy(app)
@@ -22,6 +24,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20))
     email = db.Column(db.String(30), unique=True)
     password = db.Column(db.String(80))
+    firstName= db.Column(db.String(20))
+    lastName=db.Column(db.String(20))
+    city = db.Column(db.String(100))  
 
 # Create all tables
 with app.app_context():
@@ -41,6 +46,23 @@ class RegisterForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(), Email(message="Invalid Email"), Length(min=6, max=30)])
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=20)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=5, max=80)])
+    firstName = StringField('First Name', validators=[InputRequired(), Length(min=1, max=30)])
+    middleName = StringField('Middle Name', validators=[InputRequired(), Length(max=30)])  
+    lastName = StringField('Last Name', validators=[InputRequired(), Length(min=1, max=30)])
+    confirmPassword = PasswordField('Confirm Password', validators=[InputRequired(), Length(min=5, max=80)])
+    dob = DateField('Date of Birth', format='%Y-%m-%d', validators=[InputRequired()])
+    mobile = TelField('Mobile', validators=[InputRequired(), Length(min=10, max=15)])
+    city = SelectField('Region', choices=[
+        ('', 'Choose...'),
+        ('Australian Capital Territory', 'Australian Capital Territory'),
+        ('New South Wales', 'New South Wales'),
+        ('Northern Territory', 'Northern Territory'),
+        ('Queensland', 'Queensland'),
+        ('South Australia', 'South Australia'),
+        ('Tasmania', 'Tasmania'),
+        ('Victoria', 'Victoria'),
+        ('Western Australia', 'Western Australia')
+    ], validators=[InputRequired()])
 
 
 @app.route('/')
@@ -92,4 +114,4 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9010, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=9011, debug=True, threaded=True)
