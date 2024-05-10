@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div id="urlDisplay"></div> <!-- Added this element to display generated URL -->
+    <h1>Generated URLs:</h1>
+    <ul>
+        {% for url in urls %}
+            <li>{{ url.url }}</li>
+        {% endfor %}
+    </ul>
+    <form action="/create_group" method="POST">
+        <button type="submit">Create Group</button>
+    </form>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+   
+</body>
+</html>
