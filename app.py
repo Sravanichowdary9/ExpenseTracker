@@ -43,26 +43,16 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    email = StringField('email', validators=[InputRequired(), Email(message="Invalid Email"), Length(min=6, max=30)])
-    username = StringField('username', validators=[InputRequired(), Length(min=4, max=20)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=5, max=80)])
+    email = StringField('Email', validators=[InputRequired(), Email(message="Invalid Email"), Length(min=6, max=30)])
+    username = StringField('Username', validators=[InputRequired(), Length(min=4, max=20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=5, max=80)])
     firstName = StringField('First Name', validators=[InputRequired(), Length(min=1, max=30)])
-    middleName = StringField('Middle Name', validators=[InputRequired(), Length(max=30)])  
+    middleName = StringField('Middle Name', validators=[Optional(), Length(max=30)])  
     lastName = StringField('Last Name', validators=[InputRequired(), Length(min=1, max=30)])
     confirmPassword = PasswordField('Confirm Password', validators=[InputRequired(), Length(min=5, max=80)])
     dob = DateField('Date of Birth', format='%Y-%m-%d', validators=[InputRequired()])
-    mobile = TelField('Mobile', validators=[InputRequired(), Length(min=10, max=15)])
-    city = SelectField('Region', choices=[
-        ('', 'Choose...'),
-        ('Australian Capital Territory', 'Australian Capital Territory'),
-        ('New South Wales', 'New South Wales'),
-        ('Northern Territory', 'Northern Territory'),
-        ('Queensland', 'Queensland'),
-        ('South Australia', 'South Australia'),
-        ('Tasmania', 'Tasmania'),
-        ('Victoria', 'Victoria'),
-        ('Western Australia', 'Western Australia')
-    ], validators=[InputRequired()])
+    mobile = TelField('Mobile', validators=[InputRequired(), Length(min=6, max=15)])
+    city = StringField('City', validators=[InputRequired(), Length(min=2)])
 
 
 @app.route('/')
@@ -114,4 +104,4 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9011, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=9000, debug=True, threaded=True)
