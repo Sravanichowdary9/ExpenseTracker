@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("createGroupForm").addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                fetch("/create_group", {
+                    method: "POST"
+                })
+                .then(response => response.text()) // Expecting plain text response
+                .then(data => {
+                    document.getElementById("generatedUrl").innerText = data; // Update the URL display
+                    document.getElementById("urlDisplay").style.display = 'block'; // Show the URL display area
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Expense Tracker</h1>
+        <button id="joinGroupBtn">Join Group</button>
+    </header>
+    <button id="addExpenseBtn">Add Expense</button>
+    <div id="expenseForm" style="display: none;">
+        <label for="expenseCategory">Expense Category:</label>
+        <input type="text" id="expenseCategory" placeholder="Enter expense category">
+        <label for="expenseAmount">Expense Amount:</label>
+        <input type="number" id="expenseAmount" placeholder="Enter expense amount">
+        <button id="submitExpenseBtn" type="submit">Submit Expense</button>
+    </div>
+    <div id="expenseList">
+        <h2>Expenses:</h2>
+        <ul id="expenseItems"></ul>
+    </div>
+    
+    <!-- Initially hidden URL display area -->
+    <div id="urlDisplay" style="display: none;">
+        <h1>Generated URL:</h1>
+        <p id="generatedUrl"></p>
+    </div>
+
+    <form id="createGroupForm">
+        <button type="submit">Create Group</button>
+    </form>
+</body>
+</html>
