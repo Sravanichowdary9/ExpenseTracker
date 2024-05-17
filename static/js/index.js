@@ -100,14 +100,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    var addExpenseBtn = document.getElementById('addExpenseBtn');
-    var createUrlBtn = document.getElementById('createGroupBtn');
-    var urlDisplay = document.getElementById('urlDisplay');
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("createGroupForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-    addExpenseBtn.addEventListener('click', function () {
-        document.getElementById('expenseForm').style.display = 'block';
+        fetch("/create_group", {
+            method: "POST"
+        })
+        .then(response => response.text()) // Expecting plain text response
+        .then(data => {
+            document.getElementById("generatedUrl").innerText = data; // Update the URL display
+            document.getElementById("urlDisplay").style.display = 'block'; // Show the URL display area
+        })
+        .catch(error => console.error("Error:", error));
     });
+<<<<<<< HEAD:static/js/index.js
 
     createUrlBtn.addEventListener('click', function () {
         fetch('/generate_url')
@@ -141,4 +148,6 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error("Error:", error));
     });
+=======
+>>>>>>> f91ef1d18b4625a2632328f564bfe2b8b239e5b2:dashboard/static/js/index.js
 });
