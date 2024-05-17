@@ -5,23 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("createGroupForm").addEventListener("submit", function(event) {
-                event.preventDefault(); // Prevent default form submission
-
-                fetch("/create_group", {
-                    method: "POST"
-                })
-                .then(response => response.text()) // Expecting plain text response
-                .then(data => {
-                    document.getElementById("generatedUrl").innerText = data; // Update the URL display
-                    document.getElementById("urlDisplay").style.display = 'block'; // Show the URL display area
-                })
-                .catch(error => console.error("Error:", error));
-            });
-        });
-    </script>
+    
 </head>
 <body>
     <header>
@@ -40,6 +24,8 @@
         <h2>Expenses:</h2>
         <ul id="expenseItems"></ul>
     </div>
+    <div id="categoryButtons"></div>
+    <canvas id="categoryChart" width="400" height="400"></canvas>
     
     <!-- Initially hidden URL display area -->
     <div id="urlDisplay" style="display: none;">
@@ -50,5 +36,7 @@
     <form id="createGroupForm">
         <button type="submit">Create Group</button>
     </form>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
 </body>
 </html>
