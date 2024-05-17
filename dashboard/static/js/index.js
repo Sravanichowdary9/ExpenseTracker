@@ -100,28 +100,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    var addExpenseBtn = document.getElementById('addExpenseBtn');
-    var createUrlBtn = document.getElementById('createGroupBtn');
-    var urlDisplay = document.getElementById('urlDisplay');
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("createGroupForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-    addExpenseBtn.addEventListener('click', function () {
-        document.getElementById('expenseForm').style.display = 'block';
-    });
-
-    createUrlBtn.addEventListener('click', function () {
-        fetch('/generate_url')
-            .then(response => response.json())
-            .then(data => {
-                if (data.url) {
-                    urlDisplay.textContent = data.url;
-                } else {
-                    urlDisplay.textContent = 'Error generating URL';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                urlDisplay.textContent = 'Error generating URL';
-            });
+        fetch("/create_group", {
+            method: "POST"
+        })
+        .then(response => response.text()) // Expecting plain text response
+        .then(data => {
+            document.getElementById("generatedUrl").innerText = data; // Update the URL display
+            document.getElementById("urlDisplay").style.display = 'block'; // Show the URL display area
+        })
+        .catch(error => console.error("Error:", error));
     });
 });

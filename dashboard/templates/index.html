@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 </head>
 <body>
     <header>
         <h1>Expense Tracker</h1>
         <button id="joinGroupBtn">Join Group</button>
-        <button id="createGroupBtn">Create Group</button>
     </header>
     <button id="addExpenseBtn">Add Expense</button>
     <div id="expenseForm" style="display: none;">
@@ -24,10 +24,16 @@
         <h2>Expenses:</h2>
         <ul id="expenseItems"></ul>
     </div>
-    <div id="categoryButtons"></div>
-    <canvas id="categoryChart" width="400" height="400"></canvas>
-   
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-   
+    
+    <!-- Initially hidden URL display area -->
+    <div id="urlDisplay" style="display: none;">
+        <h1>Generated URL:</h1>
+        <p id="generatedUrl"></p>
+    </div>
+
+    <form id="createGroupForm">
+        <button type="submit">Create Group</button>
+    </form>
 </body>
+<script src="static\js\index.js"></script>
 </html>
