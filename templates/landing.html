@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}BucksBunny - Track Expenses with Friends{% endblock %}</title>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}BucksBunny - Track Expenses with Friends{% endblock %}
+
     {% block styles %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     {% endblock %}
-</head>
-<body>
+
+
     {% block content %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top custom-navbar">
         <a class="navbar-brand" href="#">
             <img src="{{ url_for('static', filename='images/logo.png') }}" width="60" height="60" alt="BucksBunny Logo">
-            bucks bunny
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-primary text-white" href="#">Login</a>
+                    <a class="nav-link btn btn-primary text-white" href="{{ url_for('login') }}">Login</a>
                 </li>
             </ul>
         </div>
@@ -38,7 +38,8 @@
                     BucksBunny makes expense tracking fun and competitive with a friendly leaderboard.<br>
                     Keep track, compare, and conquer your expenses together!
                 </p>
-                <button id="cta-button" class="btn btn-warning">Let's Go!</button>
+                <button id="cta-button" class="btn btn-warning" onclick="window.location.href=`{{ url_for('signup') }}`">Let's Go!</button>
+            </div>
             </div>
             <div class="image">
                 <img src="{{ url_for('static', filename='images/landing.jpeg') }}" alt="Landing Image" class="logo">
@@ -52,5 +53,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     {% endblock %}
-</body>
-</html>
+
