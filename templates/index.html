@@ -1,79 +1,53 @@
-{% extends "bootstrap/base.html" %}
-
-{% block title %}
-Dashboard
-{% endblock %}
-
-{% block styles %}
-{{ super() }}
-
-<link rel="stylesheet" href="{{ url_for('.static', filename='dashboard.css') }}">
-{% endblock %}
-
-{% block content %}
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-        aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Project name</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Settings</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-      </ul>
-      <form class="navbar-form navbar-right">
-        <input type="text" class="form-control" placeholder="Search...">
-      </form>
-    </div>
-  </div>
-</nav>
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-  <h1 class="page-header">Welcome, {{ name }}</h1>
-</div>
-<header>
-  <h1>Expense Tracker</h1>
-  <button id="joinGroupBtn">Join Group</button>
-</header>
-<button id="addExpenseBtn">Add Expense</button>
-<div id="expenseForm" style="display: none;">
-  <label for="expenseCategory">Expense Category:</label>
-  <input type="text" id="expenseCategory" placeholder="Select expense category" readonly>
-  <div id="categoryButtons"></div>
-  <label for="expenseAmount">Expense Amount:</label>
-  <input type="number" id="expenseAmount" placeholder="Enter expense amount">
-  <button id="submitExpenseBtn" type="submit">Submit Expense</button>
-</div>
-<div id="expenseList">
-  <h2>Expenses:</h2>
-  <ul id="expenseItems"></ul>
-</div>
-<div id="categoryButtons"></div>
-<canvas id="categoryChart" width="400" height="400"></canvas>
-
-<!-- Initially hidden URL display area -->
-<div id="urlDisplay" style="display: none;">
-  <h1>Generated URL:</h1>
-  <p id="generatedUrl"></p>
-</div>
-
-<form id="createGroupForm">
-  <button type="submit">Create Group</button>
-</form>
-{% endblock %}
-
-{% block scripts %}
-{{ super() }}
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add the icon font library here, e.g., Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <h1>Expense Tracker</h1>
+    </header>
+    <main>
+        <section id="expenseInput">
+            <button id="addExpenseBtn">Add Expense</button>
+            <div id="expenseForm" style="display: none;">
+                <label for="expenseCategory">Expense Category:</label>
+                <input type="text" id="expenseCategory" placeholder="Select expense category" readonly>
+                <label for="expenseAmount">Expense Amount:</label>
+                <input type="number" id="expenseAmount" placeholder="Enter expense amount">
+                <button id="submitExpenseBtn" type="submit">Submit Expense</button>
+            </div>
+        </section>
+        <section id="categoryButtons"></section>
+        <section id="expenseList">
+            <h2>Expenses:</h2>
+            <ul id="expenseItems"></ul>
+        </section>
+        <section id="dashboard" class="small">
+            <h2>Expense Dashboard</h2>
+            <canvas id="categoryChart" width="400" height="400"></canvas>
+        </section>
+        <section id="groupFormSection">
+            <h2>Create Group</h2>
+            <form id="createGroupForm">
+                <button id="joinGroupBtn" type="button">Join Group</button>
+                <button type="submit">Create Group</button>
+            </form>
+            <section id="urlDisplay" style="display: none;">
+                <h2>Generated URL:</h2>
+                <div class="urlContainer">
+                    <p id="generatedUrl"></p>
+                    <i class="fas fa-copy copy-icon" title="Copy URL"></i>
+                </div>
+            </section>            
+        </section>
+    </main>
+    <script src="static/js/index.js"></script>
+</body>
+</html>
