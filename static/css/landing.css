@@ -1,6 +1,12 @@
+.rubik-class {
+    font-family: "Rubik", sans-serif;
+    font-weight: 400; 
+    font-style: normal;
+  }
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Rubik", sans-serif;
     background-color: #00554E;
     padding-top: 70px; 
 }
@@ -23,10 +29,13 @@ body {
 .custom-navbar .nav-link.btn {
     background-color: #00554E;
     border:none;
+    color:#e36600 !important; 
+    font-weight: bold;
 }
 
 .custom-navbar .nav-link.btn:hover {
     background-color: #00554E;
+    border:none;
 }
 
 .container {
@@ -48,32 +57,33 @@ body {
 
 .text {
     color: #fff;
-    max-width: 40%; /* Adjusted to better fit the layout */
+    max-width: 80%; 
     animation: fadeInDown 1s ease-in-out;
-    text-align: left; /* Ensure text is aligned to the left */
+    text-align: left; 
 }
 
 .text h1 {
     font-size: 3em;
-    margin-bottom: 0.75em; /* Increased margin for better spacing */
+    margin-bottom: 0.75em; 
 }
 
 .text h2 {
     font-size: 2em;
-    margin: 1.5em 0; /* Increased margin for better spacing */
+    margin: 1.5em 0; 
 }
 
 .text p {
     font-size: 1em;
-    margin-bottom: 2em; /* Increased margin for better spacing */
+    margin-bottom: 2em; 
 }
+
 
 .text button {
     padding: 10px 20px;
     font-size: 1em;
     background-color: #f4a261;
     border: none;
-    color: #fff;
+    color: black;
     cursor: pointer;
     border-radius: 5px;
 }
@@ -117,19 +127,25 @@ body {
 
 @media (max-width: 768px) {
     .container {
+        flex-direction: column;
+        align-items: center;
         height: auto;
-        padding-top: 70px;
+        padding: 20px;
     }
     .content {
         flex-direction: column;
         align-items: center;
     }
     .text {
+        max-width: 100%;
         text-align: center;
-        max-width: 80%;
-        padding-right: 0;
+        padding: 0 20px;
+    }
+    .image {
+        max-width: 90%;
+        margin-top: 20px;
     }
     .image img {
-        width: 90%;
+        width: 100%;
     }
 }
