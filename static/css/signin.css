@@ -1,0 +1,125 @@
+.rubik-class {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400; 
+  font-style: normal;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  font-family: "Rubik", sans-serif;
+  background-color: #1a1a1a;
+  color: #1a1a1a;
+}
+
+.custom-navbar {
+  background-color: #1a1a1a!important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.form-signin-heading{
+  text-align: center;
+  padding: 50px;
+}
+
+
+.custom-navbar .nav-link.btn {
+  background-color: #00554E;
+  border:none;
+}
+
+.custom-navbar .nav-link.btn:hover {
+  background-color: #00554E;
+}
+
+
+.signup-container, .login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #79d27c 50%, #609d60 75%, #3a5f3a 100%);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-group-text {
+  color: black;
+  background: transparent; 
+  border: none; 
+}
+
+.form-control {
+  padding-right: 30px; 
+}
+
+.input-group-text, .form-check-label {
+  background: transparent;
+  border: none;
+  user-select: none;
+}
+
+.btn-primary {
+  background-color: #f4a261; 
+  border: none;
+  color: black;
+  width: 100%;
+  border-radius: 4px; 
+  font-weight: bolder;
+}
+
+.btn-primary:hover {
+  background-color: #e76f51;
+  color: black;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  background-color: transparent; 
+  border: none; 
+  border-bottom: 2px solid black;
+  color: black; 
+  padding: 10px 0; 
+  margin-bottom: 20px; 
+}
+
+.form-control:focus {
+  background-color: transparent; 
+  border-bottom: 2px solid #FFCCCB; 
+  color: #FFF;
+  outline: none; 
+  box-shadow: none; 
+}
+
+.signup-link {
+  color: black;
+  text-decoration: underline;
+}
+
+.signup-link:hover {
+  color: white;
+}
+
+.form-line{
+  padding-top: 10px;
+}
+
+
