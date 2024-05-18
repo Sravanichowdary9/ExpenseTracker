@@ -1,0 +1,135 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #00554E;
+    padding-top: 70px; 
+}
+
+
+.custom-navbar {
+    background-color: #00554E !important; 
+}
+
+.custom-navbar .navbar-brand {
+    font-weight: bold;
+    color: #e36600 !important; 
+}
+
+.custom-navbar .nav-link {
+    color: #ffffff !important; 
+    margin-right: 15px;
+}
+
+.custom-navbar .nav-link.btn {
+    background-color: #00554E;
+    border:none;
+}
+
+.custom-navbar .nav-link.btn:hover {
+    background-color: #00554E;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 70px); 
+    background-color: #00554E;
+    padding: 0 20px; 
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.text {
+    color: #fff;
+    max-width: 40%; /* Adjusted to better fit the layout */
+    animation: fadeInDown 1s ease-in-out;
+    text-align: left; /* Ensure text is aligned to the left */
+}
+
+.text h1 {
+    font-size: 3em;
+    margin-bottom: 0.75em; /* Increased margin for better spacing */
+}
+
+.text h2 {
+    font-size: 2em;
+    margin: 1.5em 0; /* Increased margin for better spacing */
+}
+
+.text p {
+    font-size: 1em;
+    margin-bottom: 2em; /* Increased margin for better spacing */
+}
+
+.text button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #f4a261;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.text button:hover {
+    background-color: #e76f51;
+}
+
+.image {
+    animation: fadeInUp 1s ease-in-out;
+    max-width: 50%;
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        height: auto;
+        padding-top: 70px;
+    }
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .text {
+        text-align: center;
+        max-width: 80%;
+        padding-right: 0;
+    }
+    .image img {
+        width: 90%;
+    }
+}
