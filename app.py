@@ -1,49 +1,48 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+import uuid
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urls.db'
+db = SQLAlchemy(app)
+
+class URL(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(255), nullable=False)
+    unique_id = db.Column(db.String(8), nullable=False, unique=True)
+
+
+    def __repr__(self):
+        return f'<URL {self.id}: {self.url}>'
 
 @app.route('/')
-def login():
-    return render_template('login.html')
+def index():
+    # Query the most recent URL
+    recent_url = URL.query.order_by(URL.id.desc()).first()
+    return render_template('index.html', recent_url=recent_url)
 
-@app.route('/perform_login', methods=['POST'])
-def perform_login():
-    username = request.form['username']
-    password = request.form['password']
+@app.route('/create_group', methods=['POST'])
+def create_group():
+    # Ensure the URL is unique
+    while True:
+        unique_id = str(uuid.uuid4())[:8]
+        url = f'http://expenseTracer.com/{unique_id}'
 
-    if username == "amrita" and password == "123":
-        return "Login Successful!"
-    else:
-        return "Invalid credentials", 401
+        # Check if this unique_id already exists in the database
+        existing_url = URL.query.filter_by(unique_id=unique_id).first()
+        if not existing_url:
+            break
 
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
+    # Create a new URL object with the generated unique_id and save it to the database
+    new_url = URL(url=url, unique_id=unique_id)
+    db.session.add(new_url)
+    db.session.commit()
 
-@app.route('/forgot_password')
-def forgot_password():
-    return "Forgot password page under construction"
+    return url
 
-@app.route('/submit-signup', methods=['POST'])
-def submit_signup():
-    firstName = request.form['firstName']
-    middleName = request.form['middleName']
-    lastName = request.form['lastName']
-    dob = request.form['dob']
-    email = request.form['email']
-    mobile = request.form['mobile']
-    country = request.form['country']
-    password = request.form['password']  
-    confirmPassword = request.form['confirmPassword']  
-    gender = request.form['gender']
-    
-    return "Signup successful! Welcome, {}".format(firstName)
-
-
-@app.errorhandler(Exception)
-def handle_exception(e):
-    print(e)
-    return str(e), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    
+    app.run(host='0.0.0.0', port=9054, debug=True, threaded=True)
