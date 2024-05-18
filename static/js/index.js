@@ -1,26 +1,20 @@
 document.addEventListener('DOMContentLoaded', function () {
     var expenses = [];
     var categoryColors = [
-        '#FF6384', // Red
-        '#36A2EB', // Blue
-        '#FFCE56', // Yellow
-        '#4BC0C0', // Cyan
-        '#9966FF', // Purple
-        '#FF9F40', // Orange
-        '#2E8B57', // Sea Green
-        '#FFD700', // Gold
-        '#CD5C5C', // Indian Red
-        '#7B68EE'  // Medium Slate Blue
+        '#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#33FFF5',
+        '#FF9633', '#FF3333', '#33FFBD', '#B833FF', '#FF33D4'
     ];
 
     var addExpenseBtn = document.getElementById('addExpenseBtn');
     var expenseForm = document.getElementById('expenseForm');
     var expenseList = document.getElementById('expenseItems');
-    var categoryButtonsContainer = document.getElementById('categoryButtons'); // Reference to category buttons container
+    var categoryButtonsContainer = document.getElementById('categoryButtons');
+    var dashboard = document.getElementById('dashboard');
+    const generatedUrlElement = document.getElementById('generatedUrl');
+    const copyIcon = document.querySelector('.copy-icon');
 
     addExpenseBtn.addEventListener('click', function () {
         expenseForm.style.display = 'block';
-        // Generate category buttons
         generateCategoryButtons();
     });
 
@@ -32,10 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (category && !isNaN(amount)) {
             expenses.push({ category: category, amount: amount });
             updateExpenseList(expenses);
-            updatePieChart(expenses);   
-            // You can add further logic here to store data in the database
+            updateDonutChart(expenses);
+            if (dashboard.classList.contains('small')) {
+                dashboard.classList.remove('small');
+                dashboard.classList.add('expanded');
+            }
         }
-        expenseForm.reset();
+        document.getElementById('expenseCategory').value = '';
+        document.getElementById('expenseAmount').value = '';
     });
 
     function updateExpenseList(expenses) {
@@ -50,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var categoryCtx = document.getElementById('categoryChart').getContext('2d');
     var categoryChart;
 
-    function updatePieChart(expenses) {
+    function updateDonutChart(expenses) {
         if (categoryChart) {
             categoryChart.destroy();
         }
@@ -66,11 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Assign colors to categories
         var colors = categoryColors.slice(0, categories.length);
 
         categoryChart = new Chart(categoryCtx, {
-            type: 'pie',
+            type: 'doughnut', // Change to 'doughnut' for donut chart
             data: {
                 labels: categories,
                 datasets: [{
@@ -80,74 +77,54 @@ document.addEventListener('DOMContentLoaded', function () {
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                cutout: '60%' // Adjust the cutout percentage for donut hole size
             }
         });
     }
 
-    // Function to generate category buttons dynamically
     function generateCategoryButtons() {
-        categoryButtonsContainer.innerHTML = ''; // Clear existing buttons
-        var categories = ['Food', 'Transportation', 'Utilities', 'Entertainment']; // Define categories
+        categoryButtonsContainer.innerHTML = '';
+        var categories = ['Rent', 'Transportation', 'Utilities', 'Groceries', 'Eating Out', 'Other'];
         categories.forEach(function (category) {
             var button = document.createElement('button');
             button.textContent = category;
             button.addEventListener('click', function () {
-                document.getElementById('expenseCategory').value = category; // Set category in input field when button is clicked
+                document.getElementById('expenseCategory').value = category;
             });
             categoryButtonsContainer.appendChild(button);
         });
     }
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("createGroupForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        fetch("/create_group", {
-            method: "POST"
-        })
-        .then(response => response.text()) // Expecting plain text response
-        .then(data => {
-            document.getElementById("generatedUrl").innerText = data; // Update the URL display
-            document.getElementById("urlDisplay").style.display = 'block'; // Show the URL display area
-        })
-        .catch(error => console.error("Error:", error));
-    });
-<<<<<<< HEAD:static/js/index.js
-
-    createUrlBtn.addEventListener('click', function () {
-        fetch('/generate_url')
-            .then(response => response.json())
-            .then(data => {
-                if (data.url) {
-                    urlDisplay.textContent = data.url;
-                } else {
-                    urlDisplay.textContent = 'Error generating URL';
-                }
+    function copyLink() {
+        const linkText = generatedUrlElement.textContent;
+        navigator.clipboard.writeText(linkText)
+            .then(() => {
+                console.log('Link copied to clipboard');
             })
-            .catch(error => {
-                console.error('Error:', error);
-                urlDisplay.textContent = 'Error generating URL';
+            .catch((error) => {
+                console.error('Failed to copy link:', error);
             });
-    });
-});
+    }
 
+    copyIcon.addEventListener('click', copyLink);
 
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("createGroupForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission
+    document.getElementById("createGroupForm").addEventListener("submit", function (event) {
+        event.preventDefault();
 
         fetch("/create_group", {
             method: "POST"
         })
-        .then(response => response.text()) // Expecting plain text response
+        .then(response => response.text())
         .then(data => {
-            document.getElementById("generatedUrl").innerText = data; // Update the URL display
-            document.getElementById("urlDisplay").style.display = 'block'; // Show the URL display area
+            generatedUrlElement.innerText = data;
+            document.getElementById("urlDisplay").style.display = 'block';
         })
         .catch(error => console.error("Error:", error));
     });
-=======
->>>>>>> f91ef1d18b4625a2632328f564bfe2b8b239e5b2:dashboard/static/js/index.js
 });
