@@ -222,4 +222,68 @@ form button:hover {
     margin-left: 1rem;
 }
 
+#expenseInsightCard {
+    grid-column: 1 / 3;
+    margin-top: 2rem;
+}
 
+.card {
+    background-color: #292929;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+    color: #f7f7f7;
+    margin-bottom: 1rem;
+}
+
+.card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-content canvas {
+    max-width: 100%;
+}
+
+#dateSelector {
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+#dateSelector {
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+#dateSelector label {
+    color: #f7f7f7;
+}
+
+#dateSelector select,
+#dateSelector input[type="number"] {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    width: 150px; /* Set a fixed width to ensure both elements are the same size */
+}
