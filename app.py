@@ -19,7 +19,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 # Models
-
+# The user model
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -39,7 +39,7 @@ class Expense(db.Model):
     amount = db.Column(db.Float)
 
 # Forms
-
+# Login form fields for the login sql backend point
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=20)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=5, max=80)])
@@ -67,7 +67,7 @@ class ExpenseForm(FlaskForm):
 @app.route('/')
 def home():
     return render_template('landing.html')
-
+#Checking the login verification of the user
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -79,6 +79,7 @@ def login():
         flash('Invalid username or password', 'error')
     return render_template('login.html', form=form)
 
+#Signup fields stored in the back end point
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm()
@@ -95,6 +96,7 @@ def signup():
         return redirect(url_for('login'))
     return render_template('signup.html', form=form)
 
+# Categories fields for the expense calculator
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
@@ -108,6 +110,7 @@ def dashboard():
         return redirect(url_for('dashboard'))
     return render_template('dashboard.html', name=current_user.username, categories=categories, expenses=expenses, form=form)
 
+#Posting thr user inputed data for the expense parameters
 @app.route('/submit_expense', methods=['POST'])
 @login_required
 def submit_expense():
@@ -128,7 +131,6 @@ def submit_expense():
 @app.route('/create_group', methods=['POST'])
 @login_required
 def create_group():
-    # Implement group creation logic here
     return 'http://generated.group.url'
 
 @app.route('/logout')
@@ -140,6 +142,6 @@ def logout():
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
+#Running Flask application
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9000, debug=True, threaded=True)
