@@ -30,8 +30,8 @@ This command creates a virtual environment named 'env' in your project directory
   ```
 - **Windows**:
   ```bash
- .venv\Scripts\activate
-```
+   .venv\Scripts\activate
+  ```
 This command activates the virtual environment.
 
 ```bash
@@ -62,4 +62,4 @@ We have integrated the Group Dashboard with specific URL linking functionality. 
 
 We were successful in tracking the specific users' aggregated expenses and established tables for each functionality, but unfortunately, we were unable to do the specific URL linking to create a group dashboard.
 
-```
+
