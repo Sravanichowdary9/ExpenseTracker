@@ -1,48 +1,147 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, url_for, request, flash
+from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, TelField, DateField, FloatField, SelectField
+from wtforms.validators import InputRequired, Email, Length, Optional, EqualTo
 from flask_sqlalchemy import SQLAlchemy
-import uuid
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import email_validator  # Ensures valid email addresses
+from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urls.db'
+app.config['SECRET_KEY'] = 'ExpenseTracker'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
+Bootstrap(app)
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
-class URL(db.Model):
+# Models
+# The user model
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(255), nullable=False)
-    unique_id = db.Column(db.String(8), nullable=False, unique=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(30), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
+    firstName = db.Column(db.String(20), nullable=False)
+    lastName = db.Column(db.String(20), nullable=False)
+    city = db.Column(db.String(100), nullable=False)
+    expenses = db.relationship('Expense', backref='user', lazy=True)
 
+class Expense(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    category = db.Column(db.String(50))
+    month = db.Column(db.Integer)
+    year = db.Column(db.Integer)
+    amount = db.Column(db.Float)
 
-    def __repr__(self):
-        return f'<URL {self.id}: {self.url}>'
+# Forms
+# Login form fields for the login sql backend point
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[InputRequired(), Length(min=4, max=20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=5, max=80)])
+    remember = BooleanField('Remember me')
+
+class RegisterForm(FlaskForm):
+    email = StringField('Email', validators=[InputRequired(), Email(message="Invalid Email"), Length(min=6, max=30)])
+    username = StringField('Username', validators=[InputRequired(), Length(min=4, max=20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=5, max=80)])
+    confirmPassword = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password', message="Passwords must match")])
+    firstName = StringField('First Name', validators=[InputRequired(), Length(min=1, max=30)])
+    middleName = StringField('Middle Name', validators=[Optional(), Length(max=30)])  
+    lastName = StringField('Last Name', validators=[InputRequired(), Length(min=1, max=30)])
+    dob = DateField('Date of Birth', format='%Y-%m-%d', validators=[InputRequired()])
+    mobile = TelField('Mobile', validators=[InputRequired(), Length(min=6, max=15)])
+    city = StringField('City', validators=[InputRequired(), Length(min=2)])
+
+class ExpenseForm(FlaskForm):
+    category = SelectField('Category', choices=[('Rent', 'Rent'), ('Transportation', 'Transportation'), ('Utilities', 'Utilities'), ('Groceries', 'Groceries'), ('Eating Out', 'Eating Out'), ('Other', 'Other')], validators=[InputRequired()])
+    amount = FloatField('Amount', validators=[InputRequired()])
+    date = DateField('Date', format='%Y-%m-%d', validators=[InputRequired()])
+
+# Routes
 
 @app.route('/')
-def index():
-    # Query the most recent URL
-    recent_url = URL.query.order_by(URL.id.desc()).first()
-    return render_template('index.html', recent_url=recent_url)
+def home():
+    return render_template('landing.html')
+#Checking the login verification of the user
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            return redirect(url_for('dashboard'))
+        flash('Invalid username or password', 'error')
+    return render_template('login.html', form=form)
+
+#Signup fields stored in the back end point
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
+        new_user = User(username=form.username.data,
+                        email=form.email.data,
+                        password=hashed_password,
+                        firstName=form.firstName.data,
+                        lastName=form.lastName.data,
+                        city=form.city.data)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('signup.html', form=form)
+
+# Categories fields for the expense calculator
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    categories = ['Rent', 'Transportation', 'Utilities', 'Groceries', 'Eating Out', 'Other']
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
+    form = ExpenseForm()
+    if form.validate_on_submit():
+        new_expense = Expense(user_id=current_user.id, category=form.category.data, amount=form.amount.data, date=form.date.data)
+        db.session.add(new_expense)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    return render_template('dashboard.html', name=current_user.username, categories=categories, expenses=expenses, form=form)
+
+#Posting thr user inputed data for the expense parameters
+@app.route('/submit_expense', methods=['POST'])
+@login_required
+def submit_expense():
+    form = ExpenseForm()
+    if form.validate_on_submit():
+        category = form.category.data
+        amount = form.amount.data
+        date = form.date.data
+        month = date.month
+        year = date.year
+        new_expense = Expense(user_id=current_user.id, category=category, amount=amount, month=month, year=year)
+        db.session.add(new_expense)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    return 'Failed to submit expense', 400
+
 
 @app.route('/create_group', methods=['POST'])
+@login_required
 def create_group():
-    # Ensure the URL is unique
-    while True:
-        unique_id = str(uuid.uuid4())[:8]
-        url = f'http://expenseTracer.com/{unique_id}'
+    return 'http://generated.group.url'
 
-        # Check if this unique_id already exists in the database
-        existing_url = URL.query.filter_by(unique_id=unique_id).first()
-        if not existing_url:
-            break
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
-    # Create a new URL object with the generated unique_id and save it to the database
-    new_url = URL(url=url, unique_id=unique_id)
-    db.session.add(new_url)
-    db.session.commit()
-
-    return url
-
-
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+#Running the flask application
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    
-    app.run(host='0.0.0.0', port=9054, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=9000, debug=True, threaded=True)
