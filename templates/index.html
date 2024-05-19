@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <title>{{ Dashboard }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Add the icon font library here, e.g., Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 <body>
     <header>
-        <h1>Expense Tracker</h1>
+        <h1>{{ header_title }}</h1>
     </header>
     <main>
         <section id="expenseInput">
@@ -24,10 +23,18 @@
                 <button id="submitExpenseBtn" type="submit">Submit Expense</button>
             </div>
         </section>
-        <section id="categoryButtons"></section>
+        <section id="categoryButtons">
+            {% for category in categories %}
+                <button class="category-btn">{{ category }}</button>
+            {% endfor %}
+        </section>
         <section id="expenseList">
             <h2>Expenses:</h2>
-            <ul id="expenseItems"></ul>
+            <ul id="expenseItems">
+                {% for expense in expenses %}
+                    <li>{{ expense.category }}: ${{ expense.amount }}</li>
+                {% endfor %}
+            </ul>
         </section>
         <section id="dashboard" class="small">
             <h2>Expense Dashboard</h2>
@@ -42,12 +49,12 @@
             <section id="urlDisplay" style="display: none;">
                 <h2>Generated URL:</h2>
                 <div class="urlContainer">
-                    <p id="generatedUrl"></p>
+                    <p id="generatedUrl">{{ generated_url }}</p>
                     <i class="fas fa-copy copy-icon" title="Copy URL"></i>
                 </div>
             </section>            
         </section>
     </main>
-    <script src="static/js/index.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>
