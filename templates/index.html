@@ -10,6 +10,25 @@
 </head>
 <body>
     <header>
+        <section id="dateSelector">
+            <label for="monthSelect">Month:</label>
+            <select id="monthSelect">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </select>
+            <label for="yearSelect">Year:</label>
+            <input type="number" id="yearSelect" value="2024" min="2000" max="2100">
+        </section>        
         <h1>{{ header_title }}</h1>
     </header>
     <main>
@@ -54,6 +73,14 @@
                 </div>
             </section>            
         </section>
+        <section id="expenseInsightCard">
+            <div class="card">
+                <h2>Expense Insight</h2>
+                <div class="card-content">
+                    <canvas id="expenditureYTDChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </section>        
     </main>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
