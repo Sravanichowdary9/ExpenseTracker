@@ -1,42 +1,60 @@
 {% extends "bootstrap/base.html" %}
-
-{% block title %}
-Demo App
-{% endblock %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}BucksBunny - Track Expenses with Friends{% endblock %}
 
 {% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+  rel="stylesheet">
 {% endblock %}
 
+
 {% block content %}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-            <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top custom-navbar">
+  <a class="navbar-brand" href="#">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" width="60" height="60" alt="BucksBunny Logo">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link btn btn-primary text-white" href="{{ url_for('login') }}">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
-    <div class="container">
+<div class="container">
+  <div class="content">
+    <div class="text">
+      <h1>BucksBunny</h1>
+      <h2>Track Expenses, Compete with Friends!</h2>
+      <p>
+        Ever wondered where your money goes every month?<br>
+        BucksBunny helps you take control of your finances with easy-to-use expense tracking.<br>
+        Monitor, manage, and master your spending habits!
+      </p>
+      <button id="cta-button" class="btn btn-warning" onclick="window.location.href=`{{ url_for('signup') }}`">Let's
+        Go!</button>
+    </div>
+  </div>
+  <div class="image">
+    <img src="{{ url_for('static', filename='images/landing.jpeg') }}" alt="Landing Image" class="logo">
+  </div>
+</div>
+</div>
+{% endblock %}
 
-      <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-      </div>
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
-    </div><!-- /.container -->
 {% endblock %}
