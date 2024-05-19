@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Expense Dashboard</title>
-    <link rel="stylesheet" href="static/css/group_style.css">
+    <title></title>
+    <title>{{ GroupDashboard }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/group_style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
@@ -22,6 +23,8 @@
             <div id="memberCharts"></div>
         </section>
     </main>
-    <script src="static/js/group_index.js"></script>
+    <script src="{{ url_for('static', filename='js/group_index.js') }}"></script>
 </body>
 </html>
+
+
