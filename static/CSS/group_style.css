@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    margin: 0;
+    padding: 0;
+    color: #e0e0e0;
+}
+
+header {
+    background-color: #292929;
+    color: #f7f7f7;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+section {
+    background-color: #292929;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#insightCards, #memberCharts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.insightCard, .memberChart {
+    background-color: #363232;
+    border-radius: 16px;
+    padding: 1rem;
+    flex: 1 1 calc(33% - 1rem);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.insightCard:hover, .memberChart:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+h2, h3 {
+    color: #f7f7f7;
+    margin-bottom: 1rem;
+}
+
+canvas {
+    max-width: 100%;
+}
