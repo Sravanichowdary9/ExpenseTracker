@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ Dashboard }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <section id="dateSelector">
+            <label for="monthSelect">Month:</label>
+            <select id="monthSelect">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </select>
+            <label for="yearSelect">Year:</label>
+            <input type="number" id="yearSelect" value="2024" min="2000" max="2100">
+        </section>        
+        <h1>{{ header_title }}</h1>
+    </header>
+    <main>
+        <section id="expenseInput">
+            <button id="addExpenseBtn">Add Expense</button>
+            <div id="expenseForm" style="display: none;">
+                <label for="expenseCategory">Expense Category:</label>
+                <input type="text" id="expenseCategory" placeholder="Select expense category" readonly>
+                <label for="expenseAmount">Expense Amount:</label>
+                <input type="number" id="expenseAmount" placeholder="Enter expense amount">
+                <button id="submitExpenseBtn" type="submit">Submit Expense</button>
+            </div>
+        </section>
+        <section id="categoryButtons">
+            {% for category in categories %}
+                <button class="category-btn">{{ category }}</button>
+            {% endfor %}
+        </section>
+        <section id="expenseList">
+            <h2>Expenses:</h2>
+            <ul id="expenseItems">
+                {% for expense in expenses %}
+                    <li>{{ expense.category }}: ${{ expense.amount }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section id="dashboard" class="small">
+            <h2>Expense Dashboard</h2>
+            <canvas id="categoryChart" width="400" height="400"></canvas>
+        </section>
+        <section id="groupFormSection">
+            <h2>Create Group</h2>
+            <form id="createGroupForm">
+                <button id="joinGroupBtn" type="button">Join Group</button>
+                <button type="submit">Create Group</button>
+            </form>
+            <section id="urlDisplay" style="display: none;">
+                <h2>Generated URL:</h2>
+                <div class="urlContainer">
+                    <p id="generatedUrl">{{ generated_url }}</p>
+                    <i class="fas fa-copy copy-icon" title="Copy URL"></i>
+                </div>
+            </section>            
+        </section>
+        <section id="expenseInsightCard">
+            <div class="card">
+                <h2>Expense Insight</h2>
+                <div class="card-content">
+                    <canvas id="expenditureYTDChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </section>        
+    </main>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
