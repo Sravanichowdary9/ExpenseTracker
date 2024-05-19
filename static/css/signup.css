@@ -1,0 +1,57 @@
+.signup-container {
+    width: 50rem; 
+    margin: auto;
+    min-height: 600px;
+}
+
+@media (max-width: 768px) {
+    .signup-container {
+        width: 90%; 
+    }
+}
+
+.form-group.col-md-6 select option {
+    color: #00554E;
+    background-color: transparent; 
+}
+
+.form-check {
+    padding-right: 15px;
+    padding-bottom: 10px; 
+    margin-bottom: 10px; 
+    display: flex; 
+    align-items: center; 
+}
+
+.form-check-label {
+    margin-left: 10px;
+}
+
+.form-group .col-4 {
+    padding-right: 15px;
+}
+
+.form-group .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-group .form-check.thirds {
+    flex: 0 0 33.333%; 
+    max-width: 33.333%;
+}
+
+.form-group .form-check.halves {
+    flex: 0 0 50%; 
+    max-width: 50%;
+}
+
+.form-group .form-control[type="date"] {
+    position: relative; 
+    background-color: transparent;
+}
+
+
+
+

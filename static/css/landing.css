@@ -1,0 +1,151 @@
+.rubik-class {
+    font-family: "Rubik", sans-serif;
+    font-weight: 400; 
+    font-style: normal;
+  }
+
+body {
+    margin: 0;
+    font-family: "Rubik", sans-serif;
+    background-color: #00554E;
+    padding-top: 70px; 
+}
+
+
+.custom-navbar {
+    background-color: #00554E !important; 
+}
+
+.custom-navbar .navbar-brand {
+    font-weight: bold;
+    color: #e36600 !important; 
+}
+
+.custom-navbar .nav-link {
+    color: #ffffff !important; 
+    margin-right: 15px;
+}
+
+.custom-navbar .nav-link.btn {
+    background-color: #00554E;
+    border:none;
+    color:#e36600 !important; 
+    font-weight: bold;
+}
+
+.custom-navbar .nav-link.btn:hover {
+    background-color: #00554E;
+    border:none;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 70px); 
+    background-color: #00554E;
+    padding: 0 20px; 
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.text {
+    color: #fff;
+    max-width: 80%; 
+    animation: fadeInDown 1s ease-in-out;
+    text-align: left; 
+}
+
+.text h1 {
+    font-size: 3em;
+    margin-bottom: 0.75em; 
+}
+
+.text h2 {
+    font-size: 2em;
+    margin: 1.5em 0; 
+}
+
+.text p {
+    font-size: 1em;
+    margin-bottom: 2em; 
+}
+
+
+.text button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #f4a261;
+    border: none;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.text button:hover {
+    background-color: #e76f51;
+}
+
+.image {
+    animation: fadeInUp 1s ease-in-out;
+    max-width: 50%;
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 20px;
+    }
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .text {
+        max-width: 100%;
+        text-align: center;
+        padding: 0 20px;
+    }
+    .image {
+        max-width: 90%;
+        margin-top: 20px;
+    }
+    .image img {
+        width: 100%;
+    }
+}
